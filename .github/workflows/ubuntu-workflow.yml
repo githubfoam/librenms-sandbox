@@ -32,6 +32,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: "os fingerprinting"
       run: hostnamectl status  
+      
 #https://docs.librenms.org/Installation/Install-LibreNMS/
   ubuntu-2004-job:
     name: "ubuntu-20.04"
@@ -41,4 +42,19 @@ jobs:
     - name: "os fingerprinting"
       run: hostnamectl status 
     - name: "Install Required Packages"
-      run: sudo apt-get install -qqy software-properties-common      
+      run: sudo apt-get install -qqy software-properties-common   
+      
+#https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#Ubuntu
+  ubuntu-2004-nagios-job:
+    name: "ubuntu-20.04"
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status 
+    - name: "Prerequisites"
+      run: |
+        sudo dpkg -l selinux*  #This guide is based on SELinux being disabled or in permissive mode. SELinux is not enabled by default on Ubuntu
+        sudo apt-get update -qq
+        sudo apt-get install -yqq autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev 
+        
