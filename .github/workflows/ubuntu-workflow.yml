@@ -27,10 +27,11 @@ jobs:
     - name: "Security-Enhanced Linux"
       #This guide is based on SELinux being disabled or in permissive mode. SELinux is not enabled by default on Ubuntu
       run: sudo dpkg -l selinux*  
-    - run: |
+    - name: "Prerequisites"
+      run: |
+        sudo dpkg -l selinux* #This guide is based on SELinux being disabled or in permissive mode. SELinux is not enabled by default on Ubuntu
         sudo apt-get update -qq
-        sudo apt-get install -y autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev
-      name: Prerequisites      
+        sudo autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.0 libgd2-xpm-dev      
 
   ubuntu-1804-nagios-job:
     name: "ubuntu-18.04"
@@ -42,10 +43,11 @@ jobs:
     - name: "Security-Enhanced Linux"
       #This guide is based on SELinux being disabled or in permissive mode. SELinux is not enabled by default on Ubuntu
       run: sudo dpkg -l selinux*  
-    - run: |
+    - name: "Prerequisites"
+      run: |
+        sudo dpkg -l selinux*
         sudo apt-get update -qq
-        sudo apt-get install -y autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev
-      name: Prerequisites       
+        sudo apt-get install -yqq autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.2 libgd-dev      
       
 #https://docs.librenms.org/Installation/Install-LibreNMS/
   ubuntu-2004-job:
@@ -71,13 +73,8 @@ jobs:
     - name: "Security-Enhanced Linux"
       #This guide is based on SELinux being disabled or in permissive mode. SELinux is not enabled by default on Ubuntu
       run: sudo dpkg -l selinux*
-    - run: |
-        sudo apt-get update -qq
-        sudo apt-get install -y autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev
-      name: Prerequisites
-    - name: "Prerequisites 2"
+    - name: "Prerequisites"
       run: |
-        sudo dpkg -l selinux*
         sudo apt-get update -qq
         sudo apt-get install -yqq autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev
            
