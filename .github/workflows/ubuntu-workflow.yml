@@ -54,15 +54,14 @@ jobs:
       run: hostnamectl status 
     - name: "Prerequisites 1"
       run: sudo dpkg -l selinux*    
-    - name: "Prerequisites 2"
+    - name: "Security-Enhanced Linux"
       #This guide is based on SELinux being disabled or in permissive mode. SELinux is not enabled by default on Ubuntu
       run: sudo dpkg -l selinux*
     - run: |
-        sudo dpkg -l selinux*
         sudo apt-get update -qq
         sudo apt-get install -yqq autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev
-      name: Build and Test
-    - name: "Prerequisites"
+      name: Prerequisites
+    - name: "Prerequisites 2"
       run: |
         sudo dpkg -l selinux*
         sudo apt-get update -qq
