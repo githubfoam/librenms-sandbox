@@ -62,7 +62,8 @@ jobs:
       name: Build and Test
     - name: "Build and Test 2"
       run: |
-        sudo dpkg -l selinux*
+        sudo dpkg -l selinux* #This guide is based on SELinux being disabled or in permissive mode. SELinux is not enabled by default on Ubuntu
         sudo apt-get update -qq
+        sudo apt-get install -yqq autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev
            
         
