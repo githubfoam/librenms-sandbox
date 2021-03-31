@@ -17,7 +17,7 @@ jobs:
       run: hostnamectl status
     - name: "Add the repository manually"
       run: |
-        echo "deb http://packages.netxms.org/$(lsb_release -si | tr A-Z a-z) $(lsb_release -sc | tr A-Z a-z) main" > /etc/apt/sources.list.d/netxms.list
+        echo "deb http://packages.netxms.org/$(lsb_release -si | tr A-Z a-z) $(lsb_release -sc | tr A-Z a-z) main" | sudo tee /etc/apt/sources.list.d/netxms.list
         wget -q -O - http://packages.netxms.org/netxms.gpg | sudo apt-key add -
         sudo apt-get update -qq
 
