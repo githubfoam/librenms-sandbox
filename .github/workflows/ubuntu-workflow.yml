@@ -17,6 +17,42 @@ jobs:
     - name: "os fingerprinting"
       run: hostnamectl status  
 
+#https://docs.librenms.org/Installation/Install-LibreNMS/
+  ubuntu-2004-librenms-nginx-job:
+    name: "ubuntu-20.04 librenms job nginx"
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status 
+    - name: "Install Required Packages"
+      run: sudo apt-get install -qqy software-properties-common
+    - name: "Install Required Packages 2"
+      run: |
+        sudo apt-get install -qqy software-properties-common
+        add-apt-repository universe
+        sudo apt-get update -qq
+        sudo apt-get install -yqq acl curl composer fping git graphviz imagemagick mariadb-client mariadb-server mtr-tiny nginx-full nmap php7.4-cli php7.4-curl php7.4-fpm php7.4-gd php7.4-json php7.4-mbstring php7.4-mysql php7.4-snmp php7.4-xml php7.4-zip rrdtool snmp snmpd whois unzip python3-pymysql python3-dotenv python3-redis python3-setuptools python3-systemd
+
+
+#https://docs.librenms.org/Installation/Install-LibreNMS/
+  ubuntu-2004-librenms-apache-job:
+    name: "ubuntu-20.04 librenms job apache"
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status 
+    - name: "Install Required Packages"
+      run: sudo apt-get install -qqy software-properties-common
+    - name: "Install Required Packages 2"
+      run: |
+        sudo apt-get install -qqy software-properties-common
+        add-apt-repository universe
+        sudo apt-get update -qq
+        sudo apt-get install -yqq acl curl apache2 composer fping git graphviz imagemagick libapache2-mod-fcgid mariadb-client mariadb-server mtr-tiny nmap php7.4-cli php7.4-curl php7.4-fpm php7.4-gd php7.4-json php7.4-mbstring php7.4-mysql php7.4-snmp php7.4-xml php7.4-zip rrdtool snmp snmpd whois python3-pymysql python3-dotenv python3-redis python3-setuptools python3-systemd
+
+
 #https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#Ubuntu
   ubuntu-1604-nagios-job:
     name: "ubuntu-16.04 nagios job"
@@ -32,7 +68,8 @@ jobs:
       run: |
         sudo dpkg -l selinux* #This guide is based on SELinux being disabled or in permissive mode. SELinux is not enabled by default on Ubuntu
         sudo apt-get update -qq
-        sudo apt-get install -yqq autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.0 libgd2-xpm-dev      
+        #sudo apt-get install -yqq autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.0 libgd2-xpm-dev #Package 'libgd2-xpm-dev' has no installation candidate     
+        sudo apt-get install -yqq autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.0
     - name: "Downloading the Source"
       run: |
         cd /tmp 
@@ -80,16 +117,7 @@ jobs:
         wget -O nagioscore.tar.gz https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.5.tar.gz
         tar xzf nagioscore.tar.gz         
       
-#https://docs.librenms.org/Installation/Install-LibreNMS/
-  ubuntu-2004-job:
-    name: "ubuntu-20.04 librenms job"
-    runs-on: ubuntu-20.04
-    steps:
-    - uses: actions/checkout@v2
-    - name: "os fingerprinting"
-      run: hostnamectl status 
-    - name: "Install Required Packages"
-      run: sudo apt-get install -qqy software-properties-common   
+ 
       
 #https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#Ubuntu
   ubuntu-2004-nagios-job:
@@ -98,16 +126,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: "os fingerprinting"
-      run: hostnamectl status 
-    - name: "Prerequisites 1"
-      run: sudo dpkg -l selinux*    
+      run: hostnamectl status   
     - name: "Security-Enhanced Linux"
       #This guide is based on SELinux being disabled or in permissive mode. SELinux is not enabled by default on Ubuntu
       run: sudo dpkg -l selinux*
     - name: "Prerequisites"
       run: |
         sudo apt-get update -qq
-        sudo apt-get install -yqq autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev
+        sudo apt-get install -y autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev
 
            
         
