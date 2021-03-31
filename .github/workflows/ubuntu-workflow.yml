@@ -53,5 +53,7 @@ jobs:
     - name: "os fingerprinting"
       run: hostnamectl status 
     - name: "Prerequisites 1"
+      run: sudo dpkg -l selinux*    
+    - name: "Prerequisites 2"
       run: sudo apt-get update -qq
         
