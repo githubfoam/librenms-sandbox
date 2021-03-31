@@ -1,12 +1,9 @@
-name: "Ubuntu CI workflow"
+name: "Ubuntu librensm CI workflow"
 
 
 on:
   push:
     branches: [ dev ]
-  #schedule:
-      #- cron:  '0 0 1 * *' ##execution of a task in the first minute of the month  
-
 jobs:
  
 
@@ -38,7 +35,12 @@ jobs:
         sudo chmod 771 /opt/librenms
         sudo setfacl -d -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
         sudo setfacl -R -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
-
+    - name: "Install PHP dependencies"
+      run: |
+        su - librenms
+        ./scripts/composer_wrapper.php install --no-dev
+        exit
+        
 
 #https://docs.librenms.org/Installation/Install-LibreNMS/
   ubuntu-2004-librenms-apache-job:
