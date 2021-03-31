@@ -52,13 +52,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: "os fingerprinting"
       run: hostnamectl status 
-    - name: "Prerequisites"
-      run: |
-        #sudo dpkg -l selinux*  #This guide is based on SELinux being disabled or in permissive mode. SELinux is not enabled by default on Ubuntu
-        #sudo apt list --installed | grep selinux
-        #sudo dpkg-query -l | grep selinux
-        #sudo dpkg-query -f '${binary:Package}\n' -W > packages_list.txt
-        #sudo dpkg-query -f '${binary:Package}\n' -W | wc -l
-        sudo apt-get update -qq
-        sudo apt-get install -yqq autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev 
+    - name: "Prerequisites 1"
+      run: sudo apt-get update -qq
         
