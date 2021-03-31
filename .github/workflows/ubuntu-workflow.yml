@@ -10,15 +10,16 @@ on:
 jobs:
 
   ubuntu-job:
-    name: "ubuntu-latest"
+    name: "ubuntu-latest librenms job"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: "os fingerprinting"
       run: hostnamectl status  
 
+#https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#Ubuntu
   ubuntu-1604-nagios-job:
-    name: "ubuntu-16.04"
+    name: "ubuntu-16.04 nagios job"
     runs-on: ubuntu-16.04
     steps:
     - uses: actions/checkout@v2
@@ -29,12 +30,37 @@ jobs:
       run: sudo dpkg -l selinux*  
     - name: "Prerequisites"
       run: |
-        sudo dpkg -l selinux* #This guide is based on SELinux being disabled or in permissive mode. SELinux is not enabled by default on Ubuntu
+        sudo dpkg -l selinux* 
         sudo apt-get update -qq
         sudo autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.0 libgd2-xpm-dev      
+    - name: "Downloading the Source"
+      run: |
+        cd /tmp 
+        wget -O nagioscore.tar.gz https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.5.tar.gz
+        tar xzf nagioscore.tar.gz   
+    - name: "Compile"
+      run: |
+        cd /tmp/nagioscore-nagios-4.4.5/
+        sudo ./configure --with-httpd-conf=/etc/apache2/sites-enabled
+        sudo make all   
+    - name: "Create User And Group"
+      #This creates the nagios user and group. The www-data user is also added to the nagios group.
+      run: |
+        sudo make install-groups-users
+        sudo usermod -a -G nagios www-data
+    - name: "Install Binaries"
+      #This step installs the binary files, CGIs, and HTML files
+      run: sudo make install 
+    - name: "Install Service / Daemon"
+      #This installs the service or daemon files and also configures them to start on boot
+      run: sudo make install-daemoninit     
+    - name: "Install Command Mode"
+      #This installs and configures the external command file
+      run: sudo make install-commandmode   
 
+#https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#Ubuntu
   ubuntu-1804-nagios-job:
-    name: "ubuntu-18.04"
+    name: "ubuntu-18.04 nagios job"
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
@@ -47,11 +73,16 @@ jobs:
       run: |
         sudo dpkg -l selinux*
         sudo apt-get update -qq
-        sudo apt-get install -yqq autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.2 libgd-dev      
+        sudo apt-get install -yqq autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.2 libgd-dev 
+    - name: "Downloading the Source"
+      run: |
+        cd /tmp 
+        wget -O nagioscore.tar.gz https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.5.tar.gz
+        tar xzf nagioscore.tar.gz         
       
 #https://docs.librenms.org/Installation/Install-LibreNMS/
   ubuntu-2004-job:
-    name: "ubuntu-20.04"
+    name: "ubuntu-20.04 librenms job"
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
@@ -62,7 +93,7 @@ jobs:
       
 #https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#Ubuntu
   ubuntu-2004-nagios-job:
-    name: "ubuntu-20.04"
+    name: "ubuntu-20.04 nagios job"
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
@@ -77,5 +108,6 @@ jobs:
       run: |
         sudo apt-get update -qq
         sudo apt-get install -yqq autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev
+
            
         
