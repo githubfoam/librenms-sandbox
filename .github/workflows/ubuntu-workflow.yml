@@ -17,21 +17,35 @@ jobs:
     - name: "os fingerprinting"
       run: hostnamectl status  
 
-  ubuntu-1604-job:
+  ubuntu-1604-nagios-job:
     name: "ubuntu-16.04"
     runs-on: ubuntu-16.04
     steps:
     - uses: actions/checkout@v2
     - name: "os fingerprinting"
       run: hostnamectl status  
+    - name: "Security-Enhanced Linux"
+      #This guide is based on SELinux being disabled or in permissive mode. SELinux is not enabled by default on Ubuntu
+      run: sudo dpkg -l selinux*  
+    - run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev
+      name: Prerequisites      
 
-  ubuntu-1804-job:
+  ubuntu-1804-nagios-job:
     name: "ubuntu-18.04"
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
     - name: "os fingerprinting"
-      run: hostnamectl status  
+      run: hostnamectl status 
+    - name: "Security-Enhanced Linux"
+      #This guide is based on SELinux being disabled or in permissive mode. SELinux is not enabled by default on Ubuntu
+      run: sudo dpkg -l selinux*  
+    - run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev
+      name: Prerequisites       
       
 #https://docs.librenms.org/Installation/Install-LibreNMS/
   ubuntu-2004-job:
@@ -59,7 +73,7 @@ jobs:
       run: sudo dpkg -l selinux*
     - run: |
         sudo apt-get update -qq
-        sudo apt-get install -yqq autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev
+        sudo apt-get install -y autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev
       name: Prerequisites
     - name: "Prerequisites 2"
       run: |
