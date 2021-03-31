@@ -56,4 +56,8 @@ jobs:
       run: sudo dpkg -l selinux*    
     - name: "Prerequisites 2"
       run: sudo apt-get update -qq
+    - run: |
+        sudo dpkg -l selinux*
+        sudo apt-get update -qq
+      name: Build and Test
         
