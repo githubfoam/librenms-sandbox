@@ -60,4 +60,9 @@ jobs:
         sudo dpkg -l selinux*
         sudo apt-get update -qq
       name: Build and Test
+    - name: "Build and Test 2"
+      run: |
+        sudo dpkg -l selinux*
+        sudo apt-get update -qq
+           
         
